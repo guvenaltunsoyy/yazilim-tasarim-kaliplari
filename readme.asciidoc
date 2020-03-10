@@ -1,5 +1,5 @@
 = Lorem
-
+[[paragraphs]]
 Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. 
 
 == Lorem 2
@@ -22,8 +22,6 @@ TIP: Pro tip...
 WARNING: Watch out for...
 
 CAUTION: Ensure that...
-
-See the <<README#,README>>.
 
 
 Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır
@@ -61,8 +59,6 @@ https://example.org["Google, Yahoo, Bing^",role=teal]
 
 
 See <<paragraphs>> to learn how to write paragraphs.
-
-Learn how to organize the document into <<section-titles,sections>>.
 
 
 
