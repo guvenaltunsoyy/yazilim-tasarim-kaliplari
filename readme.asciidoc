@@ -1,5 +1,5 @@
-= Lorem
 [[paragraphs]]
+= Lorem
 Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. 
 
 == Lorem 2
