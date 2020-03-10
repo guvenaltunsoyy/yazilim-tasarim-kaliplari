@@ -1,1 +1,282 @@
-initial
+= Lorem
+
+Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. 
+
+== Lorem 2
+Lorem Ipsum pasajlarının birçok çeşitlemesi vardır. 
+
+* Linux, Internet üzerinden haberleşen çok sayıda gönüllü programcının desteğiyle Linus Torvalds tarafından baştan başlanarak geliştirilmiş GNU/Linux işletim sisteminin çekirdeğidir.
+* Linux, diğer birçok özgür yazılım ürünü gibi ücretsiz olarak edinilebilmektedir. Çeşitli Linux dağıtımlarının yansılarını Dosya Alanı bölümünü oluşturan FTP sunucumuzda bulabilirsiniz. 
+
+. LKD’nin katıldığı çeşitli fuarlarda, standımızda Linux CD’leri bulabilirsiniz. 
+
+. Bunun yanı sıra CD satan yerlere de başvurabilirsiniz.
+
+NOTE: An admonition paragraph draws the reader's attention to
+auxiliary information.
+Its purpose is determined by the label
+at the beginning of the paragraph.
+
+TIP: Pro tip...
+
+WARNING: Watch out for...
+
+CAUTION: Ensure that...
+
+See the <<README#,README>>.
+
+
+Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır
+
+
+
+
+http://github.com/guvenaltunsoyy - automatic!
+
+http://github.com/guvenaltunsoyy[guvenaltunsoyy]
+
+http://github.com/guvenaltunsoyy[Guven ALTUNSOY @ *GitHub*]
+
+link:++https://example.org/?q=[a b]++[URL with special characters]
+
+link:https://example.org/?q=%5Ba%20b%5D[URL with special characters]
+
+link:\\server\share\whitepaper.pdf[Whitepaper]
+
+link:index.html[Docs]
+
+devel@discuss.arquillian.org
+
+mailto:gven.altunsoy@gmail.com[Guven ALTUNSOY]
+
+mailto:gven.altunsoy@gmail.com[Subscribe,Subscribe me,I want to join!]
+
+irc://irc.freenode.org/#fedora
+
+https://discuss.asciidoctor.org[Discuss Asciidoctor,role=external,window=_blank]
+
+https://discuss.asciidoctor.org[Discuss Asciidoctor^]
+
+https://example.org["Google, Yahoo, Bing^",role=teal]
+
+
+See <<paragraphs>> to learn how to write paragraphs.
+
+Learn how to organize the document into <<section-titles,sections>>.
+
+
+
+
+We could also write the link as link:README{outfilesuffix}[README].
+
+Reference code like `types` or `methods` inline.
+
+Do not pass arbitrary ``Object``s to methods that accept ``String``s!
+
+Output literal monospace text such as `+{backtick}+` by
+enclosing the text in pluses, then in backticks.
+
+ Indent the line one space to insert a code snippet
+
+....
+error: The requested operation returned error: 1954 Forbidden search for defensive operations manual
+absolutely fatal: operation initiation lost in the dodecahedron of doom
+would you like to die again? y/n
+....
+
+.Gemfile.lock
+----
+GEM
+  remote: https://rubygems.org/
+  specs:
+    asciidoctor (1.5.6.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  asciidoctor (~> 1.5.6.1)
+----
+
+.app.rb
+[source,ruby]
+----
+require 'sinatra'
+
+get '/hi' do
+  "Hello World!"
+end
+----
+
+[source, bash]
+----
+#!/bin/bash
+addition(){
+   sum=$(($1+$2))
+   return $sum
+}
+read -p "Bir rakam girin: " int1
+read -p "Bir rakam girin: " int2
+add $int1 $int2
+echo "Sonuc : " $?
+----
+
+
+[source, cpp]
+----
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int main()
+{
+    double number, squareRoot;
+    cout << "Enter a number: ";
+    cin >> number;
+
+    // sqrt() is a library function to calculate square root
+    squareRoot = sqrt(number);
+    cout << "Square root of " << number << " = " << squareRoot;
+    return 0;
+}
+----
+
+[source,ruby]
+----
+require 'sinatra' // <1>
+
+get '/hi' do // <2>
+  "Hello World!" // <3>
+end
+----
+<1> Library import
+<2> URL mapping
+<3> HTTP response body
+
+
+----
+line of code  // <1>
+line of code  # <2>
+line of code  ;; <3>
+line of code  <!--4-->
+----
+<1> A callout behind a line comment for C-style languages.
+<2> A callout behind a line comment for Ruby, Python, Perl, etc.
+<3> A callout behind a line comment for Clojure.
+<4> A callout behind a line comment for XML or SGML languages like HTML.
+
+
+[source,xml]
+----
+<section>
+  <title>Section Title</title> <!--1-->
+</section>
+----
+<1> The section title is required.
+
+
+.Table Title
+|===
+|Name of Column 1 |Name of Column 2 |Name of Column 3 
+
+|Cell in column 1, row 1
+|Cell in column 2, row 1
+|Cell in column 3, row 1
+
+|Cell in column 1, row 2
+|Cell in column 2, row 2
+|Cell in column 3, row 2
+|===
+
+[%header,cols=2*] 
+|===
+|Name of Column 1
+|Name of Column 2
+
+|Cell in column 1, row 1
+|Cell in column 2, row 1
+
+|Cell in column 1, row 2
+|Cell in column 2, row 2
+|===
+
+[cols="1,1,2", options="header"] 
+.Applications
+|===
+|Name
+|Category
+|Description
+
+|Firefox
+|Browser
+|Mozilla Firefox is an open-source web browser.
+It's designed for standards compliance,
+performance, portability.
+
+|Arquillian
+|Testing
+|An innovative and highly extensible testing platform.
+Empowers developers to easily create real, automated tests.
+|===
+
+[cols="2,2,5a"]
+|===
+|Firefox
+|Browser
+|Mozilla Firefox is an open-source web browser.
+
+It's designed for:
+
+* standards compliance
+* performance
+* portability
+
+https://www.mozilla.org/en-US/firefox/new[Get Firefox]!
+|===
+
+[%header,format=csv]
+|===
+Artist,Track,Genre
+Baauer,Harlem Shake,Hip Hop
+The Lumineers,Ho Hey,Folk Rock
+|===
+
+,===
+Artist,Track,Genre
+
+Baauer,Harlem Shake,Hip Hop
+,===
+
+
+
+[cols="e,m,^,>s", width="25%"]
+|===
+|1 >s|2 |3 |4
+^|5 2.2+^.^|6 .3+<.>m|7
+^|8
+|9 2+>|10
+|===
+
+= Document Title
+:data-uri:
+
+video::jNQXAC9IVRw[youtube]
+
+image::US@3x.png[US,100,100]
+
+image::Nigeria@2x.png[Nigeria,300,200]
+
+.A Nigeria Flag
+[#img-sunset]
+[caption="Figure 1: ",link=http://picsum.photos/id/237/300/400]
+image::Nigeria@2x.png[Nigeria,300,200]
+
+image::http://picsum.photos/id/237/300/400[Random Images]
+
+Click image:icons/apollo1@2x.png[Play, title="Play"] to get the party started.
+
+Click image:icons/apollo1@3x.png[title="Pause"] when you need a break.
+
+
+
