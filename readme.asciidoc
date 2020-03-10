@@ -275,4 +275,15 @@ Click image:icons/apollo1@2x.png[Play, title="Play"] to get the party started.
 Click image:icons/apollo1@3x.png[title="Pause"] when you need a break.
 
 
+[plantuml, diagram-classes, png]
+....
+class BlockProcessor
+class DiagramBlock
+class DitaaBlock
+class PlantUmlBlock
+
+BlockProcessor <|-- DiagramBlock
+DiagramBlock <|-- DitaaBlock
+DiagramBlock <|-- PlantUmlBlock
+....
 
