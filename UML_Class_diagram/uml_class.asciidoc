@@ -1,0 +1,77 @@
+[uml,file="umlClass.png"]
+--
+@startuml
+
+class Araba{
+-Marka
++Fiyat
++getMarka()
++Calistir()
++tekerlekSayisi
+}
+
+class Tekerlek{
+boyut
+getBoyut()
+setBoyut()
+}
+class Aksesuar{
+adi
+getAdi()
+}
+class Celik{
+
+}
+class Cam {
+kalinlik
+getKalinlik()
+setKalinlik()
+}
+class Film{
++renk_derecesi
+}
+class 4Teker{
+-Tip
++getTip()
+}
+class 6Teker{
+-Tasima_Kapasitesi
++getTasima_Kapasitesi()
+}
+class Anahtar{
+}
+
+abstract class Motor {
+-Guc
++getGuc()
+}
+
+class Insan{
++Cinsiyet
++Yas
+}
+
+enum RenkDerecesi{
+hafif
+orta
+koyu
+}
+class Yakit{
+}
+
+
+Film"1" - "*"RenkDerecesi
+Aksesuar - RenkDerecesi
+Araba <|.. Motor
+Cam o-- Film
+Araba *-- Cam
+Araba <|-- 4Teker
+Araba <|-- 6Teker
+Tekerlek o-- Celik
+Araba"1" *-- "*"Tekerlek
+Araba o-- Aksesuar
+Araba ..> Anahtar: <<use>>
+Araba ..> Yakit : <<bind>>
+Insan ..> Araba : <<use>>
+@enduml
+--  
