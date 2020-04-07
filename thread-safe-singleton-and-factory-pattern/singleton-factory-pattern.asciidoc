@@ -11,17 +11,19 @@ public class BasketManager
             }
                 return Instance;
             }
+        private BasketManager(){
+        }
         private BasketModel _basketModel;
         
-        public int GetItemsCount()
+        private int GetItemsCount()
         {
             return (int)_basketModel.itemCount;
         }
-        public List<Line> GetBasket()
+        private List<Line> GetBasket()
         {
             return _basket.lines;
         }
-        public string GetBasketId()
+        pravete string GetBasketId()
         {
             return _basket.id;
         }
@@ -31,8 +33,14 @@ public class BasketManager
     
         private static IAlveoClient _client;
         public static IAlveoClient Client => _client ?? (_client = new BaseAlveoClient());
+        private async Task<ResponseClass> SaveShipment(string basketId, CancellationToken token){
+            return await Client.SaveShipment(basketId, token);
+        }
+        
     }
-    
+    public interface IAlveoClient{
+        Task<ResponseClass> SaveShipment(string basketId, CancellationToken token);
+    }
     internal class BaseAlveoClient : IAlveoClient
     {
         private readonly string _baseUrl;
@@ -42,27 +50,28 @@ public class BasketManager
             return res;
     }
     
-        public sealed partial class BasketAddressPage : Page
+     public sealed partial class BasketAddressPage : Page
         { 
+            BasketManager BasketManager = BasketManager.GetInstance(); 
             private async void SaveShipment(object sender, EventArgs e)
             {
-            var shippingResponse = await AlveoClientManager.Client.SaveShippingAddress(BasketManager.Instance.GetBasketId(), new System.Threading.CancellationToken());
+            var shippingResponse = await AlveoClientManager.Client.SaveShippingAddress(BasketManager.GetBasketId(), new System.Threading.CancellationToken());
             }
         }
         
-        public class BasketModel{
+    public class BasketModel{
             private string basketId;
             private int itemCount;
             public BasketModel(string basketId, int itemCount){
             this.basketId= basketId;
             this.itemCount = itemCount;
             }
-        }
-        public class BasketModelFactory { // <3>
+    }
+    public class BasketModelFactory { // <3>
             public static BasketModel CreateBasketModel() { // <4>
                 return new BasketModel("defaultId", 7);
             }
-        }
+    }
 ----
 <1> BasketManager classının instance'ı oluşturulmuştur
 <2> BasketManager için Thread safe singleton pattern kullanılarak
@@ -94,12 +103,14 @@ SaveShipment()
 class BaseAlveoClient{
 -_baseUrl
 -_server
+SaveShipment()
 }
 class Page{
 ComponentEvents()
 }
 class AlveoClientManager{
-Client
+client
+SaveShipment()
 }
 class BasketModel{
 -basketId
