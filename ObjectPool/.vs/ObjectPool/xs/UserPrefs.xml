@@ -1,0 +1,25 @@
+﻿<Properties StartupConfiguration="{E27592E3-A2E4-4467-8209-546EE104287D}|Default">
+  <MonoDevelop.Ide.ItemProperties.ObjectPool PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ObjectPool/Program.cs">
+    <Files>
+      <File FileName="ObjectPool/Program.cs" Line="46" Column="44" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ObjectPool" expanded="True">
+            <Node name="ObjectPool" expanded="True">
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

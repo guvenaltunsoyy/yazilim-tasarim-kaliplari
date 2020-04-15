@@ -1,0 +1,27 @@
+﻿<Properties StartupConfiguration="{B473FC22-AD09-4BD4-8CB6-2AFC301E06C8}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PrototypePattern/Program.cs">
+    <Files>
+      <File FileName="PrototypePattern/Program.cs" Line="39" Column="34" />
+      <File FileName="PrototypePattern/IPrototypePattern.cs" Line="29" Column="1" />
+      <File FileName="PrototypePattern/School.cs" Line="12" Column="25" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="PrototypePattern" expanded="True">
+            <Node name="PrototypePattern" expanded="True">
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.PrototypePattern PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

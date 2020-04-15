@@ -1,0 +1,12 @@
+/Users/guvenaltunsoy/Projects/ObjectPool/ObjectPool/bin/Debug/netcoreapp3.1/ObjectPool.deps.json
+/Users/guvenaltunsoy/Projects/ObjectPool/ObjectPool/bin/Debug/netcoreapp3.1/ObjectPool.runtimeconfig.json
+/Users/guvenaltunsoy/Projects/ObjectPool/ObjectPool/bin/Debug/netcoreapp3.1/ObjectPool.runtimeconfig.dev.json
+/Users/guvenaltunsoy/Projects/ObjectPool/ObjectPool/bin/Debug/netcoreapp3.1/ObjectPool.dll
+/Users/guvenaltunsoy/Projects/ObjectPool/ObjectPool/bin/Debug/netcoreapp3.1/ObjectPool.pdb
+/Users/guvenaltunsoy/Projects/ObjectPool/ObjectPool/obj/Debug/netcoreapp3.1/ObjectPool.csprojAssemblyReference.cache
+/Users/guvenaltunsoy/Projects/ObjectPool/ObjectPool/obj/Debug/netcoreapp3.1/ObjectPool.csproj.CoreCompileInputs.cache
+/Users/guvenaltunsoy/Projects/ObjectPool/ObjectPool/obj/Debug/netcoreapp3.1/ObjectPool.AssemblyInfoInputs.cache
+/Users/guvenaltunsoy/Projects/ObjectPool/ObjectPool/obj/Debug/netcoreapp3.1/ObjectPool.AssemblyInfo.cs
+/Users/guvenaltunsoy/Projects/ObjectPool/ObjectPool/obj/Debug/netcoreapp3.1/ObjectPool.dll
+/Users/guvenaltunsoy/Projects/ObjectPool/ObjectPool/obj/Debug/netcoreapp3.1/ObjectPool.pdb
+/Users/guvenaltunsoy/Projects/ObjectPool/ObjectPool/obj/Debug/netcoreapp3.1/ObjectPool.genruntimeconfig.cache
