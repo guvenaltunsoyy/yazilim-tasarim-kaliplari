@@ -1,0 +1,33 @@
+[uml,file="umlClass.png"]
+--
+@startuml
+
+abstract class IPrototype{
++Clone()
++DeepCopy()
+}
+
+class School{
++Name
++Address
+getName()
+setName()
+getAddress()
+setAddress()
+}
+class Student{
++FullName
++SchoolNumber
++School
+getSchool()
+setSchool()
+getFullName()
+setFullName()
+getSchoolNumber()
+setSchoolNumber()
+}
+
+Student *-- School
+IPrototype <|-- Student
+@enduml
+--  

@@ -1,0 +1,27 @@
+[uml,file="umlClass.png"]
+--
+@startuml
+class PoolManager
+{
+-{static}Object s_lock
+-{static}PoolManager instance
+-PoolManager()
++{static}PooInstance
++getInstance()
+-{static}int _PoolMaxSize
+-{static}Queue objPool
+-{static}Queue waitingPool
++async Task<Student> GetStudent()
+#void AddToWaitingQueue(Student s)
+#void CheckQueue()
+}
+
+class Student{
++Student()
+ }
+
+
+PoolManager *-- Student
+PoolManager - PoolManager
+@enduml
+--  
