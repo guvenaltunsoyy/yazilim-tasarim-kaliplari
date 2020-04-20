@@ -1,0 +1,63 @@
+[uml,file="umlClass.png"]
+--
+@startuml
+package models {
+    class BaseBurgerModel{
+        #Hamburger _burger
+        +Hamburger Burger
+        +string ToString()
+    }
+    class Hamburger
+    {
+        +string Name
+        +int MeatWeight
+        +TypeOfMeat TypeOfMeat
+        +string Garniture
+        +string Bread
+        +CheeseTypes Cheese
+    }
+}
+package builder{
+    interface IHamburgerBuilder{
+        +void SetMeat();
+        +void SetName();
+        +void SetCheese();
+        +void SetBread();
+        +void SetGarniture();
+        +void SetTypeOfMeat();
+    }
+
+    class ChickenBurger{
+    
+    }
+    
+    class BeefBurger{
+    }
+    
+    class DirectorHamburger{
+        +void CreateBurger(IHamburgerBuilder burger);
+    }
+}
+package enums{
+    enum CheeseTypes{
+        None,
+        WhiteCheese,
+        Cheddar
+    }
+    
+    enum TypeOfMeat{
+        Tavuk,
+        Dana
+    }
+}
+
+IHamburgerBuilder <|.. ChickenBurger
+IHamburgerBuilder <|.. BeefBurger
+IHamburgerBuilder <.. DirectorHamburger: <<use>>
+BaseBurgerModel <|-- BeefBurger
+BaseBurgerModel <|-- ChickenBurger
+Hamburger --* BaseBurgerModel
+Hamburger -- TypeOfMeat
+Hamburger -- CheeseTypes
+@enduml
+--  
