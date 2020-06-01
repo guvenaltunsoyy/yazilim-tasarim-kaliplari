@@ -254,8 +254,6 @@ class Macchiato extends Coffee
 CafeLatte .|> ICoffeeMaker
 class CafeLatte extends Coffee
 CoffeeMaker .> ICoffeeMaker : <<use>>
-CoffeeMaker .> Coffee :<<create>>
-Program ..> CoffeeMaker : <<use>>
-Program ..> Coffee : <<use>>
+Program .> CoffeeMaker : <<use>>
 @enduml
 --
