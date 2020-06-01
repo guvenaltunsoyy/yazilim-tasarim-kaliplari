@@ -1,0 +1,47 @@
+[uml,file="umlClass.png"]
+--
+@startuml
+class Program
+    {
+        {static}void Main(string[] args)
+    }
+    
+interface IObserverUser
+{
+    void SendNotification(ProductUpdateMessage message)
+}
+class ObserverUser
+{
+    +void SendNotification(ProductUpdateMessage message)
+}
+
+class ProductUpdateMessage
+{
+    +string productName;
+    +string message;
+    +override string ToString()
+}
+abstract class ObservableProduct
+{
+    -List<IObserverUser> _users;
+    #ProductUpdateMessage message;
+    +ObservableProduct()
+    +void AddObserver(IObserverUser observerUser)
+    +void RemoveObserver(IObserverUser observerUser)
+    +async Task NotifyObserver()
+}
+class Mercedes
+{
+    + void async ChangeColor()
+}
+    
+    
+Mercedes --|> ObservableProduct
+ObservableProduct --o IObserverUser
+ObservableProduct --o ProductUpdateMessage
+ObserverUser --|> IObserverUser
+Program ..> IObserverUser : <<create>>
+Program ..> ObserverUser : <<create>>
+Program ..> Mercedes : <<create>>
+@enduml
+--
