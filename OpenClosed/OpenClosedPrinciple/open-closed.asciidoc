@@ -1,0 +1,261 @@
+= Open-Closed Principle(Açık-Kapalı Prensibi)
+
+
+TIP: “Yazılım birimleri (ki bunlar sınıflar, modüller veya fonksiyonlar olabilir) genişlemeye açık ama modifikasyona kapalı olmalıdır.” (Bertrand Meyer).
+
+Bu prensip, SOLID prensiplerin arasında en önemli olanlarından birisidir (Hatta Robert C. Martin tarafından nesne yönelimli tasarımın en önemli prensibi olduğu ifade edilmiştir) ve Nesne Yönelimli Tasarım yaklaşımının da tam kalbinde bulunmaktadır. 
+
+* Genişlemelere açıktırlar:
+** Modülü sergilediği kabiliyet, gereksinim değişiklikleri veya yeni gereksinimler ışığında, genişleyebilir. Burada, yeni kabiliyetler için modülün genişletilmesi zaten onun kodları değiştirilmesi anlamına gelmez mi diye düşünebilirsiniz ama mevcut sınıfı değiştirmeden de bunu yapabilmenin yöntemleri mevut.
+* Modifikasyonlara ise kapalıdırlar:
+** Modülün kendisine ilişkin kaynak kodların değişikliğine ise izin verilmez/gerek kalmaz. Örneğin, DLL veya .jar kütüphanelerinde bir değişiklik yapılmasına gerek kalmaz. Tabi burada hata düzeltmelerini ve dile ilişkin ya da benzeri güncellemeleri göz ardı etmemiz gerekiyor.
+
+* Bunu uygulamanın yolu ise genelde soyutlamadan geçmektedir.
+
+Konuya ilişkin örneğimiz bir kahve dükkanı simülasyonudur. Burada çeşitli kahveler yapılıp satılmaktadır. Açık-Kapalı prensibini uygulayacağımız bu örnekte kahveleri üreten bir fonksiyonumuz olacak. Bu kahve üreteci, ona hangi tür kahve gelirse gelsin, istenen özelliklerde kahveyi yapıp geri döndürecek.
+
+.Coffee.cs
+[source, csharp]
+----
+public abstract class Coffee // <1>
+    {
+        public string CoffeeName { get; set; }
+        public string CustomerName { get; set; }
+        public bool TakeAWay { get; set; }
+        public int Sugar { get; set; }
+        public bool WithMilk { get; set; }
+        public CoffeeRatio CoffeeRatio { get; set; }
+        public Size Size { get; set; }
+        public CookingTime CookingTime { get; set; }
+    }
+----
+<1> Burada kahve classımızı tanımladık. İçeresinde kahvelerde olması gereken bazı özellikleri ve kriterleri ekledik.
+
+.ICoffeeMaker.cs && CoffeeMaker.cs
+[source,csharp]
+----
+public interface ICoffeeMaker
+{
+    Task<Coffee> MakeCoffee(string customerName = null, int sugar = 0, bool withMilk = false, Size size = Size.Small, bool takeAWay = false); // <1>
+}
+    
+public class CoffeeMaker <!--2-->
+{
+    private ICoffeeMaker _coffeeMaker;
+
+    public CoffeeMaker(ICoffeeMaker coffee)
+    {
+        _coffeeMaker = coffee;
+    }
+    public CoffeeMaker()
+    {
+        Console.WriteLine("Kahve secimi yapmadiniz.");
+    }
+    public async Task<Coffee> GetCoffee(string customerName = null, int sugar = 0, bool withMilk = false, Size size = Size.Small, bool takeAWay = false)
+    {
+        return await _coffeeMaker.MakeCoffee(customerName, sugar, withMilk, size, takeAWay);
+    }
+    }
+----
+<1> Kahvemizi üretecek olan fonksiyonumuz buradadır. Bu interface sayesinde kodumuzda değişiklik yapmadan, genişlemeler yaparak istediğimiz kahveleri üreterek kodumuzu geliştirebileceğiz. Bu şekilde açık-kapalı prensibine uymuş olacağız.
+
+
+<2> Kahvelerimizi üretecek olan classımız buradadır. Bu classımız yukarıda tanımladığımız interface içerisinde tanımlanan MakeCoffee fonksiyonunu çalıştıracak ve istenilen türde kahveyi üretip geri döndürecek.
+
+.Coffees
+[source,csharp]
+----
+ public class Espresso :Coffee, ICoffeeMaker // <1>
+{
+    public async Task<Coffee> MakeCoffee(string customerName = null, int sugar = 0, bool withMilk = false, Size size = Size.Small, bool takeAWay = false) // <2>
+    {
+        CoffeeName = "Espresso";
+        CustomerName = customerName;
+        Sugar = sugar;
+        WithMilk = withMilk;
+        Size = size;
+        CoffeeRatio = CoffeeRatio.Dark;
+        TakeAWay = takeAWay;
+        CookingTime = withMilk ? CookingTime.DarkCoffeeWithMilk : CookingTime.DarkCoffee;
+        ReadingInfo();
+        await Task.Delay((int) (CookingTime));
+        ReadyInfo();
+        return this;
+    }
+}
+public class Filtre : Coffee, ICoffeeMaker // <1>
+{
+    public async Task<Coffee> MakeCoffee(string customerName = null, int sugar = 0, bool withMilk = false, Size size = Size.Small,
+        bool takeAWay = false) // <2>
+    {
+        CoffeeName = "Filtre";
+        CustomerName = customerName;
+        Sugar = sugar;
+        WithMilk = withMilk;
+        Size = size;
+        CoffeeRatio = CoffeeRatio.Medium;
+        TakeAWay = takeAWay;
+        CookingTime = withMilk ? CookingTime.MediumCoffeeWithMilk : CookingTime.MediumCoffee;
+        ReadingInfo();
+        await Task.Delay((int) (CookingTime));
+        ReadyInfo();
+        return this;
+    }
+}
+----
+
+<1> Burada üretilecek olan kahve türlerimizden 2 tanesi mevcuttur. Uygulamamız içerisinde bu türlere benzer 3 kahve türü daha bulunmaktadır.
+<2> Kullanıcıdan alınan isterler ile kahve üretilir.
+
+=== Uygulamanın çalıştırılması
+
+.Program.cs
+[source,csharp]
+----
+CoffeeMaker _coffeeMaker;
+Coffee _coffee;
+
+... // <1>
+
+ switch (coffeeType) // <2>
+{
+    case 1:
+        _coffeeMaker = new CoffeeMaker(new Espresso());
+        break;
+    case 2:
+        _coffeeMaker = new CoffeeMaker(new Cappuccino());
+        break;
+    case 3:
+        _coffeeMaker = new CoffeeMaker(new CafeLatte());
+        break;
+    case 4:
+        _coffeeMaker = new CoffeeMaker(new Macchiato());
+        break;
+    case 5:
+        _coffeeMaker = new CoffeeMaker(new Filtre());
+        break;
+    default:
+        _coffeeMaker = new CoffeeMaker();
+        break;
+}
+
+_coffee = await _coffeeMaker.GetCoffee(customerName, sugar, withMilk != 0, size, takeAWay != 0);  // <3>                        
+
+----
+
+<1> Kullanıcıdan kahve için gerekli isterler alınmıştır.
+<2> Kullanıcıdan alınan isterlere göre daha önceden tanımlanmış kahve türü belirlenir ve kahve üreticisine gönderilir.
+<3> Gönderilen kahve türüne göre uygun kahveyi hazırlayıp geri döndermektedir.
+
+Kurulan bu yapı sayesinde ilerleyen süreçte yeni kahve talebi geldiğinde mevcut kodumuzda herhangi bir değişiklik yapmadan yeni bir kahve türü oluşturularak mevcut kahve üreticimiz ile üretebiliriz.
+
+Kurduğumuz bu yapı ile kodumuz genişlemeye açık ancak değişime kapalıdır. Açık-kapalı prensibine bağlı kalarak uygulamamızı tamamlamış olduk.
+
+TIP: Neden bu prensibi kullandık? Simülasyonumuz bir kahve dükkanı, gün geçtikçe farklı kahveler veya içerikler eklenmek istenecektir. Bu prensibi kullanmasaydık her kahve eklenmek istendiğinde kodun bir çok yerini değiştirmek ve ardından bu süreçleri test etmek zorunda kalacaktık. Ancak açık-kapalı prensibini uygulayarak bu maliyetlerden kurtulmuş ve sadece eklenmek istenen kahvenin classı oluşturularak projeye dahil etmiş olacağız.
+
+Kullanıcıdan kahvenin üretilmesi için gerekli isterler alınır ve kahve üretilir.
+
+.Uygulama çıktısı
+image::open-closed.png[400,500]
+
+=== UML
+
+[uml,file="umlClass.png"]
+--
+@startuml
+left to right direction
+package Coffees{
+    class Espresso
+    {
+        +async Task<Coffee> MakeCoffee(string customerName, int sugar, bool withMilk, Size size, bool takeAWay)
+    }
+    class CafeLatte
+    {
+        +async Task<Coffee> MakeCoffee(string customerName, int sugar, bool withMilk, Size size, bool takeAWay)
+    }
+    class Macchiato
+    {
+        +async Task<Coffee> MakeCoffee(string customerName, int sugar, bool withMilk, Size size, bool takeAWay)
+    }
+    class Cappuccino
+    {
+        +async Task<Coffee> MakeCoffee(string customerName, int sugar, bool withMilk, Size size, bool takeAWay)
+    }
+    class Filtre
+    {
+        +async Task<Coffee> MakeCoffee(string customerName, int sugar, bool withMilk, Size size, bool takeAWay)
+    }
+}
+
+interface ICoffeeMaker
+{
+    Task<Coffee> MakeCoffee(string customerName, int sugar, bool withMilk, Size size, bool takeAWay)
+
+}
+
+abstract class Coffee
+{
+    +string CoffeeName;
+    +string CustomerName;
+    +bool TakeAWay ;
+    +int Sugar;
+    +bool WithMilk;
+    +CoffeeRatio CoffeeRatio;
+    +Size Size;
+    +CookingTime CookingTime;
+    +void ReadingInfo()
+    +public void ReadyInfo()
+}
+class CoffeeMaker
+{
+    -ICoffeeMaker _coffeeMaker
+    +async Task<Coffee> GetCoffee(string customerName, int sugar, bool withMilk, Size size, bool takeAWay)
+}
+package enums{
+    enum Size
+    {
+        Small
+        Medium
+        Large
+    }
+    enum CoffeeRatio
+    {
+        Light
+        Medium
+        Dark
+    }
+    enum CookingTime
+    {
+        DarkCoffee = 5000
+        DarkCoffeeWithMilk = 7000
+        MediumCoffee = 2000
+        MediumCoffeeWithMilk = 4000
+        LightCoffee = 7000
+        LightCoffeeWithMilk = 9000
+    }
+    
+}
+class Program
+{
+    {static}void Main()
+}
+Espresso .|> ICoffeeMaker
+class Espresso extends Coffee
+
+Filtre .|> ICoffeeMaker
+class Filtre extends Coffee
+
+Cappuccino .|> ICoffeeMaker
+class Cappuccino extends Coffee
+
+Macchiato ..|> ICoffeeMaker
+class Macchiato extends Coffee
+
+CafeLatte .|> ICoffeeMaker
+class CafeLatte extends Coffee
+CoffeeMaker .> ICoffeeMaker : <<use>>
+CoffeeMaker .> Coffee :<<create>>
+Program ..> CoffeeMaker : <<use>>
+Program ..> Coffee : <<use>>
+@enduml
+--
