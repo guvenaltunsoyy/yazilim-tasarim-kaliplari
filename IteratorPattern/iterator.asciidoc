@@ -1,0 +1,52 @@
+[uml,file="umlClass.png"]
+--
+@startuml
+ interface IIterator<T>
+{
+    +bool HasNext();
+    +T GetCurrentItem();
+}
+interface IEmployeeAggregate
+{
+    IIterator<Employee> CreateIterator();
+}
+ class EmployeeListAggregate
+{
+    - List<Employee> _employees;
+    + EmployeeListAggregate()
+    + void Add(Employee employee)
+    + int Count()
+    + Employee Get(int index)
+       
+}
+
+class Employee
+{
+    + int id { get; set; }
+    + string firstName { get; set; }
+    + string lastName { get; set; }
+    + string mailingAddress { get; set; }
+    + string birthDate { get; set; }
+    + string phoneNumber { get; set; }
+    + Employee(int id, string firstName, string lastName, string mailingAddress, string birthDate, string phoneNumber)
+}
+  class EmployeeIterator
+{
+    - EmployeeListAggregate _employeeListAggregate;
+    - int _currentIndex;
+    + EmployeeIterator(EmployeeListAggregate employeeListAggregate)
+}
+
+class Program{
+{static} void Main(string[] args)
+}
+
+EmployeeListAggregate --|> IEmployeeAggregate
+IEmployeeAggregate ..> IIterator : <<use>>
+EmployeeIterator --|> IIterator
+EmployeeIterator <.. EmployeeListAggregate: <<create>>
+EmployeeListAggregate --* Employee
+Program ..> EmployeeListAggregate: <<create>>
+Program ..> Employee: <<create>>
+@enduml
+--  
