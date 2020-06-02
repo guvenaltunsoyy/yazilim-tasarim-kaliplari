@@ -1,0 +1,236 @@
+= Command Pattern(Komut Tasarım Deseni)
+
+
+TIP: Command tasarım deseni, davranışsal grupta yer alan, kullanıcı isteklerini gerçekleştiren kod yapısını sarmallayarak nesneler halinde saklanmasını daha sonra da bu isteklerin gerçekleştirilmesini veya geri alınmasını sağlayan tasarım desenidir.
+
+
+Yapılmak istenen işlemi bir nesneye dönüştürerek, alıcı nesne
+tarafından işlemin yerine getirilmesi sağlar.
+
+Bu desen metot sayısı arttığında, bir aracı üstünden çağırabilmeyi istediğimizde, işlemleri geri almak istediğimizde veya uzaktaki bir metodu çağırmak gerektiğinde imdadımıza yetişiyor.
+
+İstemciyle, çalıştırılmak istenen metodun bağlarını koparmak istersek araya bir aracı koyarız. İşte ilk arzumuz mümkün olduğunca bağları zayıflatmak. Böylece istemciyi değiştirdiğimizde, metot bundan etkilenmez, metodu değiştirdiğimizde istemci bu değişimden etkilenmez.
+
+NOTE: İşte bağlantıları/ilişkileri zayıflatma işlemine “decoupling” ve aracı işini görecek nesneye de “invoker” diyoruz.
+
+
+
+* İstemci, hedef metodu çalıştırmak için kendi yarattığı invoker nesnesinin Execute() yordamını çalıştırır.
+* İstemci, hedef metodu barındıran receiver sınıfından bir nesne yaratır.
+İstemci, receiver sınıfındaki hedef metoda (varsa) gerekli parametreleri geçirebilmek ve metodu çalıştırabilmek için command nesnesini yaratır.
+* İstemci, yarattığı command nesnesine bağımlılık enjeksiyonu (DI) ile receiver nesnesini geçirir ki, command nesnesi hedef metotla tanışsın.
+
+
+
+TIP: istemci, receiver nesnesini -> command nesnesine geçiriyor, command nesnesini -> invoker nesnesine geçiriyor.
+
+== Avantajları
+
+* Uygulama daha modüler ve esnek olur
+* Makro komutlar oluşturularak bu komutların bir anda çalıştırılması sağlanabilir.
+* Yeni işlevler istendiğinde, yeni komut nesneleri de kolayca eklenebilir.
+* İşlemi tetikleyen nesneler ile işlemi yapan nesneler birbirinden ayrılmış olur.
+
+
+.BuyStock.cs && SellStock.cs
+[source, csharp]
+----
+public class SellStock : IOrderCommand // <1>
+{
+    private StockManager _stockManager;
+
+    public SellStock(StockManager stockManager)
+    {
+        _stockManager = stockManager;
+    }
+    public void Execute() // <2>
+    {
+        _stockManager.Sell();
+    }
+}
+public class BuyStock : IOrderCommand // <1>
+{
+    private StockManager _stockManager;
+
+    public BuyStock(StockManager stockManager)
+    {
+        _stockManager = stockManager;
+    }
+    public void Execute()  // <2>
+    {
+        _stockManager.Buy();
+    }
+}
+----
+<1> Komutları execute edecek komut classlarımız. Komutları tetikleyen komut nesneleri bu classlardan oluşturulacak. Bu classlar istenen komutu gerçekleştirebilmek için kurucu metotta parametre olarak receiver nesnesi almaktadır.
+<2> Tetiklenmesi istenen komutlar.Invoker nesnesi ile bu komutlar çalıştırılacak.
+
+
+.StockManager.cs
+[source, csharp]
+----
+public class StockManager  <1>
+{
+    private string _name;
+    private int _quantity;
+
+    public StockManager(string name, int quantity)
+    {
+        _name = name;
+        _quantity = quantity;
+    }
+
+    public void Buy()  <2>
+    {
+        _quantity++;
+        Console.WriteLine($"Stock: {_name}, {_quantity} bought!");
+    }
+
+    public void Sell() <2>
+    {
+        _quantity--;
+        Console.WriteLine($"Stock: {_name}, {_quantity} sold!");
+    }
+}
+----
+<1> Receiver classımız. Burada komut nesnelerinin çalıştırılacağı metotlar bulunmaktadır.
+<2> Komut nesnelerinin çalıştırılacağı metotlar. 
+
+
+.StockController.cs
+[source, csharp]
+----
+public class StockController <1>
+{
+    private List<IOrderCommand> _orderCommands;
+
+    public StockController()
+    {
+        _orderCommands = new List<IOrderCommand>();
+    }
+
+    public void TakeOrder(IOrderCommand command) <2>
+    {
+        _orderCommands.Add(command);
+    }
+
+    public void PlaceOrders() <3>
+    {
+        foreach (var command in _orderCommands)
+        {
+            command.Execute();
+        }
+        _orderCommands.Clear();
+    }
+    public void RemoveOrder(IOrderCommand command)<4>
+    {
+        _orderCommands.Remove(command);
+    }
+}
+----
+<1> Invoker classımız. Komutları sıraya alıp istenildiği zaman sırayla çalıştıracak olan classımız.
+<2> Komutları sıraya alan metodumuz. 
+<3> Komutları çalıştıracak olan metodumuz.
+<4> İstenilen komutu sıradan çıkaracak olan methodumuz
+
+.Program.cs
+[source, csharp]
+----
+  class Program <1>
+    {
+        static void Main(string[] args)
+        {
+            StockManager stockManager = new StockManager("iPhone", 200); <2>
+
+            BuyStock buyStock = new BuyStock(stockManager); <3>
+            SellStock sellStock = new SellStock(stockManager); <3>
+
+            StockController stockController = new StockController(); <4>
+
+            stockController.TakeOrder(buyStock); <5>
+            stockController.TakeOrder(sellStock); <5>
+            stockController.TakeOrder(sellStock); <5>
+            stockController.RemoveOrder(sellStock); <6>
+
+
+            stockController.PlaceOrders();<7>
+        }
+    }
+----
+<1> Client classımız. Süreci başlatacak olan classımız.
+<2> Komutları içeren receiver nesnemiz oluşturulur.
+<3> Invoker tarafından trigger edildiğinde çalışacak olan komutlarımız. Komut nesnesin metodu çalıştırabilmesi için  bağımlılık enjeksiyonu (DI) ile receiver nesnesi geçirilir.
+<4> Komut nesnelerini sıraya alıp istendiği zaman çalıştıracak olan invoker nesnemiz.
+<5> Komut nesneleri sıraya alınır.
+<6> İstenilen komut sıradan çıkarılır.
+<7> Sırada olan komut nesneler, çalıştırılır.
+
+.Ekran çıktısı
+image::command-ss.png[400,500]
+
+
+=== UML
+
+[uml,file="umlClass.png"]
+--
+@startuml
+left to right direction
+class StockManager
+{
+    -string _name;
+    -int _quantity;
+    +StockManager(string name, int quantity)
+    +void Buy()
+    +void Sell()
+}
+
+class BuyStock
+{
+    -StockManager _stockManager;
+    +BuyStock(StockManager stockManager)
+    +void Execute()
+    
+}
+class SellStock
+{
+    -StockManager _stockManager;
+    +SellStock(StockManager stockManager)
+    +void Execute()
+}
+class StockController
+{
+    -List<IOrderCommand> _orderCommands;
+    +StockController()
+    +void TakeOrder(IOrderCommand command)
+    +void PlaceOrders()
+}
+class Program
+{
+    {static}void Main()
+}
+interface IOrderCommand
+{
+    void Execute();
+}
+
+SellStock .|> IOrderCommand
+
+BuyStock .|> IOrderCommand
+
+StockManager *.. SellStock
+StockManager *.. BuyStock
+StockController ..* IOrderCommand
+Program .> StockManager : <<use>>
+Program ..> BuyStock : <<use>>
+Program ..> SellStock : <<use>>
+Program ..> StockController : <<use>>
+note left of Program : Client
+note "Command" as C
+BuyStock .. C
+SellStock .. C
+
+note top of StockController: Invoker
+note bottom of StockManager: Receiver
+
+@enduml
+--

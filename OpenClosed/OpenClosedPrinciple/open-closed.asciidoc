@@ -155,7 +155,7 @@ TIP: Neden bu prensibi kullandık? Simülasyonumuz bir kahve dükkanı, gün ge�
 
 Kullanıcıdan kahvenin üretilmesi için gerekli isterler alınır ve kahve üretilir.
 
-.Uygulama çıktısı
+.Ekran çıktısı
 image::open-closed.png[400,500]
 
 === UML
