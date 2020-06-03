@@ -1,5 +1,5 @@
 [[paragraphs]]
-= Lorem
+= Asciidoc format usage test readme
 Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. 
 
 == Lorem 2
