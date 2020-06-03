@@ -1,0 +1,12 @@
+/Users/guvenaltunsoy/dersler/yazilim-tasarim-kaliplari/AdapterPattern/AdapterPattern/bin/Debug/netcoreapp3.1/AdapterPattern.deps.json
+/Users/guvenaltunsoy/dersler/yazilim-tasarim-kaliplari/AdapterPattern/AdapterPattern/bin/Debug/netcoreapp3.1/AdapterPattern.runtimeconfig.json
+/Users/guvenaltunsoy/dersler/yazilim-tasarim-kaliplari/AdapterPattern/AdapterPattern/bin/Debug/netcoreapp3.1/AdapterPattern.runtimeconfig.dev.json
+/Users/guvenaltunsoy/dersler/yazilim-tasarim-kaliplari/AdapterPattern/AdapterPattern/bin/Debug/netcoreapp3.1/AdapterPattern.dll
+/Users/guvenaltunsoy/dersler/yazilim-tasarim-kaliplari/AdapterPattern/AdapterPattern/bin/Debug/netcoreapp3.1/AdapterPattern.pdb
+/Users/guvenaltunsoy/dersler/yazilim-tasarim-kaliplari/AdapterPattern/AdapterPattern/obj/Debug/netcoreapp3.1/AdapterPattern.csprojAssemblyReference.cache
+/Users/guvenaltunsoy/dersler/yazilim-tasarim-kaliplari/AdapterPattern/AdapterPattern/obj/Debug/netcoreapp3.1/AdapterPattern.AssemblyInfoInputs.cache
+/Users/guvenaltunsoy/dersler/yazilim-tasarim-kaliplari/AdapterPattern/AdapterPattern/obj/Debug/netcoreapp3.1/AdapterPattern.AssemblyInfo.cs
+/Users/guvenaltunsoy/dersler/yazilim-tasarim-kaliplari/AdapterPattern/AdapterPattern/obj/Debug/netcoreapp3.1/AdapterPattern.csproj.CoreCompileInputs.cache
+/Users/guvenaltunsoy/dersler/yazilim-tasarim-kaliplari/AdapterPattern/AdapterPattern/obj/Debug/netcoreapp3.1/AdapterPattern.dll
+/Users/guvenaltunsoy/dersler/yazilim-tasarim-kaliplari/AdapterPattern/AdapterPattern/obj/Debug/netcoreapp3.1/AdapterPattern.pdb
+/Users/guvenaltunsoy/dersler/yazilim-tasarim-kaliplari/AdapterPattern/AdapterPattern/obj/Debug/netcoreapp3.1/AdapterPattern.genruntimeconfig.cache

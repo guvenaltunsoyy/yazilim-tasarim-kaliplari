@@ -1,0 +1,282 @@
+= Adapter Pattern(Adaptör Tasarım Deseni)
+
+Adaptör Tasarım deseni mevcut bir sınıfı veya arayüz sınıfını, eldeki farklı bir arayüz sınıfına uygun hale getirerek tekrar kullanmak amacıyla uygulanır. Çoğu zaman işe yarayacağını düşündüğümüz mevcut bir sınıfı kendi sistemimizde tekrar kullanmak isteriz. 
+
+Fakat mevcut sınıf, tam beklediğimiz gibi olmayabilir. Bu durumda araya bir tane adaptör yazarak, mevcut sınıfı kendi sistemimize uygun hale getirebiliriz. Böylece adapte edilen nesnede kod değişikliği olmadan benzer bir arayüzü destekler hale getiririz. Ayrıca adaptasyon işlemi sırasında, adapte edilen nesnenin desteklemediği özellikler de adaptör tarafından gerçekleştirilebilir.
+
+Bir uygulamayı geliştirirken, tüm ihtiyaçlarımızı baştan aşağıya biz karşılamıyoruz doğal olarak. Bir aygıttan veri okumak ya da çıktıyı başka bir uygulamaya göndermek gibi ihtiyaçlarımız için üçüncü parti bileşenlerden faydalanabiliyoruz. Bu bileşenler, bize bazen bir API (Application Programming Interface) aracılığı ile sunuluyor, bazen de bir COM nesnesi olarak bazen de Web Service aracılığı ile. Hangi yöntemle sunulursa sunulsun bizim tek yapacağımız, ihtiyaç duyduğumuz nesnenin ilgili metodunu kullanmaktan ibaret oluyor.
+
+
+.User.cs
+[source, csharp]
+----
+ public class User <1>
+{
+    public string FullName{ get; set; }
+    public string Mail { get; set; }
+    public string PhoneNumber { get; set; }
+    public int Age { get; set; }
+
+    public User()
+    {
+        
+    }
+    public User(string fullName, string mail, string phoneNumber, int age)
+    {
+        FullName = fullName;
+        Mail = mail;
+        PhoneNumber = phoneNumber;
+        Age = age;
+    }
+}
+----
+<1> Arayüzden alınan adapte edilecek kullanıcı bilgileri
+
+
+.School.cs
+[source, csharp]
+----
+public class School <1>
+{
+    public string Name { get; set; }
+    public string Department { get; set; }
+    public string Degree { get; set; }
+    public int Grade { get; set; }
+
+    public School(string name, string department, string degree, int grade)
+    {
+        Name = name;
+        Department = department;
+        Degree = degree;
+        Grade = grade;
+    }
+}
+----
+<1> Arayüzden alınan adapte edilecek okul bilgileri
+
+.Address.cs
+[source, csharp]
+----
+public class Address <1>
+{
+    public string City { get; set; }
+    public string State { get; set; }
+    public string Country { get; set; }
+    public string Street { get; set; }
+    public int ZipCode { get; set; }
+
+    public Address(string city, string state, string country, string street, int zipCode)
+    {
+        City = city;
+        State = state;
+        Country = country;
+        Street = street;
+        ZipCode = zipCode;
+    }
+}
+----
+<1> Arayüzden alınan adapte edilecek adres bilgileri
+
+.UserModel.cs
+[source, csharp]
+----
+public class UserModel : User <1>
+{
+    public School School { get; set; }
+    public Address Address { get; set; }
+
+    public override string ToString()
+    {
+        return $"{FullName}\n" +
+               $"{School.Name}, {School.Department}, {School.Grade}.sinif, {School.Degree}\n" +
+               $"{Address.Street} {Address.State} {Address.City}/{Address.Country}, {Address.ZipCode}\n";
+    }
+}
+----
+<1> Uygulama da kullanılan geçerli yapı. Adapte edilmek istenen sınıflar bu yapıya adapte edilecektir.
+
+
+.IExtension.cs
+[source, csharp]
+----
+public interface IExtension <1>
+{
+    UserModel ToUserModel(User user, School school, Address address);
+}
+----
+<1> Arayüzden alınan bilgileri adapte edecek metotları tutan interface
+
+.Extension.cs
+[source, csharp]
+----
+public class Extension : IExtension
+    {
+        public UserModel ToUserModel(User user, School school, Address address) <1>
+        {
+            var u = new UserModel
+            {
+                FullName = user.FullName,
+                Age = user.Age,
+                PhoneNumber = user.PhoneNumber,
+                Mail = user.Mail,
+                Address = address,
+                School = school
+            };
+            Console.WriteLine(u.ToString());
+            return u;
+        }
+    }
+----
+<1> Arayüzden alınan bilgileri gerekli olan UserModel classına convert eden metodumuz. Alınan bilgiler bu şekilde adapte edilmektedir.
+
+
+.Operations.cs
+[source, csharp]
+----
+ public class Operations <1>
+    {
+        private IExtension _extension;
+
+        public Operations(IExtension extension)
+        {
+            _extension = extension;
+        }
+
+        public UserModel GetUserModel(User user, School school, Address address) <2>
+        {
+            return _extension.ToUserModel(user, school, address);
+        }
+
+        public void CallAPI(UserModel userModel) <3>
+        {
+            Console.WriteLine($"{userModel.FullName} sunucuda olusturuldu.");
+        }
+    }
+----
+<1> Uygulama içerisinde işlemleri trigger edecek olan classımız
+<2> Alınan bilgilerin adapte edilmesi için gerekli metodu çağırıp istenen modeli return eden metodumuz
+<3> Adapte edilmiş olan modeli sunucuya gönderen metodumuz
+
+
+
+
+.Program.cs
+[source, csharp]
+----
+class Program <1>
+{
+    static void Main(string[] args)
+    {
+       Console.WriteLine("Adapter Pattern");
+                    
+        var user= new User("Guven ALTUNSOY","gven.altunsoy@gmail.com","5332186219", 25); <2>
+        var school = new School("Kocaeli Universitesi", "Bilgisayar Muhendisligi","Lisans",4); <2>
+        var address = new Address("Istanbul","Gaziosmanpasa", "Turkiye","43.sk",34250); <2>
+        
+        var operations = new Operations(new Extension()); <3>
+
+        var userModel = operations.GetUserModel(user, school, address); <4>
+        
+        operations.CallAPI(userModel); <5>
+    }
+}
+----
+<1> Arayüz olarak kabul edilen classımız. Adapte edilmek istenen bilgiler buradan girilecektir
+<2> Arayüzden veriler alınır
+<3> Adapterümüzü çalıştırmak ve api call yapmak için oluşturduğumuz classtan nesnemizi oluşturuyoruz
+<4> Arayüzden alınan bilgiler adaptöre gönderilerek istenilen modele adapte edilmiştir
+<5> Adapte edilmiş model ile gerekli api call yapılmıştır
+
+.Ekran çıktısı
+image::adaptor-ss.png[400,500]
+
+
+=== UML
+
+[uml,file="umlClass.png"]
+--
+@startuml
+left to right direction
+class Program
+{
+    {static}void Main()
+}
+class Operations
+{
+    -IExtension _extension;
+    +UserModel GetUserModel(User user, School school, Address address)
+    +void CallAPI(UserModel userModel)
+}
+
+package Adaptee{
+    class User
+    {
+        +string FullName{ get; set; }
+        +string Mail { get; set; }
+        +string PhoneNumber { get; set; }
+        +int Age { get; set; }
+    }
+    
+    class School
+    {
+        +string Name { get; set; }
+        +string Department { get; set; }
+        +string Degree { get; set; }
+        +int Grade { get; set; }
+        
+    }
+    class Address
+    {
+        +string City { get; set; }
+        +string State { get; set; }
+        +string Country { get; set; }
+        +string Street { get; set; }
+        +int ZipCode { get; set; }
+    }
+}
+class UserModel
+{
+    +School School { get; set; }
+    +Address Address { get; set; }
+    +override string ToString()
+}
+
+
+interface IExtension
+{
+    UserModel ToUserModel(User user, School school, Address address);
+}
+class Extension 
+{
+    +UserModel ToUserModel(User user, School school, Address address)
+}
+
+
+
+
+UserModel --|> User
+
+UserModel -o Address
+
+UserModel --o School
+
+Extension .|> IExtension
+
+IExtension *- Operations
+
+Extension ..> UserModel : <<create>>
+
+
+Program . Adaptee:<<use>>
+
+Program . Operations:<<use>>
+
+note top of Program : Client
+
+
+
+note right of IExtension: Adapter
+
+note top of UserModel : Target
+@enduml
+--
