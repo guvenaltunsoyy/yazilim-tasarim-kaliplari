@@ -1,3 +1,7 @@
+bu readme dosyası asciidoc formatının kullanımını öğrenmek amaçlı oluşturulmuştur.
+== Kaynak
+https://github.com/yusufyilmazfr/tasarim-desenleri-turkce-kaynak
+
 [[paragraphs]]
 = Asciidoc format usage test readme
 Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. 
