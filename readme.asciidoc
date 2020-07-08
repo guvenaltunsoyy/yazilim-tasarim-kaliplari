@@ -1,6 +1,9 @@
 bu readme dosyası asciidoc formatının kullanımını öğrenmek amaçlı oluşturulmuştur.
+
 == Kaynak
 https://github.com/yusufyilmazfr/tasarim-desenleri-turkce-kaynak
+
+* Buradan kaynak alınarak plantuml ile zenginleştirilmiştir.
 
 [[paragraphs]]
 = Asciidoc format usage test readme
